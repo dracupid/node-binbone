@@ -6,15 +6,21 @@ MAX_JS_INT = Number.MAX_SAFE_INTEGER
 
 {SIGN} = require './typeID'
 
-cleanObj = (obj) ->
-    res = {}
-    for k, v of obj
-        if v? and typeof v isnt 'function'
-            res[k] = v
-    res
-
 isMap = (map) ->
     Object.prototype.toString.call(map) is '[object Map]'
+
+cleanObj = (obj) ->
+    if isMap obj
+        res = new Map()
+        obj.forEach (v, k) ->
+            if v? and typeof v isnt 'function'
+                res.set(k, v)
+    else
+        res = {}
+        for k, v of obj
+            if v? and typeof v isnt 'function'
+                res[k] = v
+    res
 
 getLen = (o, nonFun = false) ->
     if o.length? # Array, string
@@ -22,8 +28,6 @@ getLen = (o, nonFun = false) ->
     else if o.size? # Map
         o.size
     else
-        if nonFun
-            o = cleanObj o
         Object.keys(o).length
 
 # return writed length
@@ -47,23 +51,25 @@ class BinaryEncoder
             @_output = outputBlock
 
     _funByType: (type) ->
-        t = _.capitalize type.toLowerCase()
+        t = type.toLowerCase()
+        t = t.charAt(0).toUpperCase() + t.slice(1)
+
         t = 'UInt' if t is 'Uint'
         fun = @["write#{t}"]
 
         if not fun or t is 'To'
-            throw new DirkEncodeError "Unkonw type [#{type}]"
+            throw new DirkEncodeError "Unknown type [#{type}]"
         else
             fun
 
     _writeTypeFun: (type) ->
         self = @
         if typeof type is 'string'
-            fun = _funByType type
+            fun = @_funByType type
             (value) ->
                 fun.call self, value
         else if typeof type is 'object' and typeof type.type is 'string'
-            fun = _funByType type.type
+            fun = @_funByType type.type
             (value) ->
                 fun.call self, value, type
         else
@@ -72,7 +78,7 @@ class BinaryEncoder
     _writeType: (type, value) ->
         @_writeTypeFun(type)(calue)
 
-    _writeAuto: (data) ->
+    _writeAuto: (v) ->
         len = 0
         if util.isBoolean v
             len += @writeSign SIGN.boolean
@@ -130,19 +136,22 @@ class BinaryEncoder
     writeBool: @::writeBoolean
 
     _writeUIntFixLength: (num, length) ->
-        num = ~~num
         switch length >>> 0
             when 1
-                @_output.writeUInt8 num
+                @_output.writeUInt8 ~~num
             when 2
-                @_output.writeUInt16BE num
+                @_output.writeUInt16BE ~~num
             when 4
-                @_output.writeUInt32BE num
+                @_output.writeUInt32BE ~~num
             when 8
-                bytes = (new BigInteger num).toByteArray()
+                if num instanceof BigInteger
+                    bytes = num
+                else
+                    bytes = new BigInteger num
+                bytes = bytes.toByteArray()
                 len = bytes.length
                 if len < 8
-                    pad = new Array len - 8
+                    pad = new Array 8 - len
                     bytes = pad.concat bytes
                 else if len >= 8
                     bytes = bytes[len - 8...len]
@@ -168,9 +177,9 @@ class BinaryEncoder
             if num > MAX_JS_INT
                 num = new BigInteger num
                 while num.and(~0x7F) isnt 0
-                    len += @writeByte num.and(0x7F).or(0x80)
+                    len += @writeByte num.and(0x7F).or(0x80).toRadix 10
                     num = num.shiftRight 7
-                @writeByte num
+                @writeByte num.toRadix 10
             else
                 num = ~~num
                 # Notice: num is 0
@@ -193,16 +202,19 @@ class BinaryEncoder
     writeInt: (num = 0, opts = {}) ->
         length = opts.length
         if length?
-            num = ~~num
             switch length >>> 0
                 when 1
+                    num = ~~num
                     num = (num << 1) ^ (num >> 7)
                 when 2
+                    num = ~~num
                     num = (num << 1) ^ (num >> 15)
                 when 4
+                    num = ~~num
                     num = (num << 1) ^ (num >> 31)
                 when 8
-                    num = (num << 1) ^ (num >> 63)
+                    num = new BigInteger num
+                    num = num.shiftLeft(1).xor(num.shiftRight(63))
                 else
                     throw new DirkEncodeError "Unvalid integer length: #{length}."
         else
@@ -272,7 +284,7 @@ class BinaryEncoder
 
         len += @_writeLength strLen, length, "Byte length of string"
 
-        if strLen is 0
+        if strLen isnt 0
             len += @_output.write str, 'utf8'
         len
 
@@ -286,8 +298,8 @@ class BinaryEncoder
      * @return {number}                           length to write
     ###
     writeMap: (map = {}, opts = {}) ->
-        if typeof map isnt 'Object'
-            throw new DirkEncodeError "Unvalid map type #{typeof map}."
+        if typeof map isnt 'object'
+            throw new DirkEncodeError "Unvalid map type [#{typeof map}]."
 
         {keyType, valueType, length} = opts
         if not keyType
@@ -297,6 +309,7 @@ class BinaryEncoder
 
         funKey = @_writeTypeFun keyType
         funValue = @_writeTypeFun valueType
+        map = cleanObj map
         mapLen = getLen map, true
         len = 0
 
@@ -304,7 +317,7 @@ class BinaryEncoder
 
         if mapLen
             if isMap map
-                map.forEach (k, v) ->
+                map.forEach (v, k) ->
                     len += funKey k
                     len += funValue v
             else
@@ -337,7 +350,7 @@ class BinaryEncoder
                     len += @_writeAuto item
             else
                 fun = @_writeTypeFun valueType
-                for ite in arr
+                for item in arr
                     len += fun item
         len
 
@@ -354,6 +367,7 @@ class BinaryEncoder
             throw new DirkEncodeError "Wrong argument type, Object is required."
 
         {valueType, length} = opts
+        obj = cleanObj obj
         objLen = getLen obj, true
         len = 0
 
