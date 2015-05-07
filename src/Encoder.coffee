@@ -30,6 +30,11 @@ getLen = (o, nonFun = false) ->
     else
         Object.keys(o).length
 
+Number.isInteger = Number.isInteger or (value) ->
+    typeof value is "number" and
+        isFinite(value) and
+        Math.floor(value) is value
+
 # return writed length
 class BinaryEncoder
     ###*
@@ -80,10 +85,10 @@ class BinaryEncoder
 
     _writeAuto: (v) ->
         len = 0
-        if util.isBoolean v
+        if typeof v is 'boolean'
             len += @writeSign SIGN.boolean
             len += @writeBoolean v
-        else if util.isNumber v
+        else if typeof v is 'number'
             if Number.isInteger v
                 len += @writeSign SIGN.int
                 len += @writeInt v

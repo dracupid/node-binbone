@@ -4,7 +4,7 @@
   "description": "A binary encoder aimed at achieving optimal space utilization.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "no test"
   },
   "devDependencies": {
     "benchmark": "git+https://github.com/bestiejs/benchmark.js.git",

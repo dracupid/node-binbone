@@ -1,4 +1,4 @@
-Block = require '..'
+Block = require '../src'
 assert = require 'assert'
 util = require 'util'
 
@@ -230,7 +230,7 @@ describe "write Map", ->
                 eq l, 6
                 deq B._data.read(6), new Buffer [97, 1, 98, 2, 99, 3]
 
-    if Map
+    if typeof Map is 'function'
         describe "use ES6 Map", ->
             it "write plain map", ->
                 B = new Block()
