@@ -17,21 +17,21 @@ npm i node-dirk -S
 ## API
 
 
-- #### <a href="./src/Encoder.coffee?source#L39" target="_blank"><b>constructor(outputBlock)</b></a>
+- #### <a href="./src/Encoder.coffee?source#L43" target="_blank"><b>constructor(outputBlock)</b></a>
   constructor
 
   - **<u>param</u>**: `outputBlock` { _Block_ }
 
     An DirkBlock Object
 
-- #### <a href="./src/Encoder.coffee?source#L47" target="_blank"><b>writeTo(outputBlock)</b></a>
+- #### <a href="./src/Encoder.coffee?source#L51" target="_blank"><b>writeTo(outputBlock)</b></a>
   Reset data block
 
   - **<u>param</u>**: `outputBlock` { _Block_ }
 
     see constructor
 
-- #### <a href="./src/Encoder.coffee?source#L122" target="_blank"><b>writeByte(value = 0)</b></a>
+- #### <a href="./src/Encoder.coffee?source#L126" target="_blank"><b>writeByte(value = 0)</b></a>
   Write a byte.
 
   - **<u>param</u>**: `value` { _number=0_ }
@@ -42,7 +42,7 @@ npm i node-dirk -S
 
     length to write (always 1)
 
-- #### <a href="./src/Encoder.coffee?source#L132" target="_blank"><b>writeBoolean(value) (alias: writeBool) </b></a>
+- #### <a href="./src/Encoder.coffee?source#L136" target="_blank"><b>writeBoolean(value) (alias: writeBool) </b></a>
   Write a boolean value.
 
   - **<u>param</u>**: `value` { _boolean_ }
@@ -53,7 +53,7 @@ npm i node-dirk -S
 
     length to write (always 1)
 
-- #### <a href="./src/Encoder.coffee?source#L171" target="_blank"><b>writeUInt(num = 0 | string, opts = {}) (alias: writeLength, writeSign) </b></a>
+- #### <a href="./src/Encoder.coffee?source#L175" target="_blank"><b>writeUInt(num = 0 | string, opts = {}) (alias: writeLength, writeSign) </b></a>
   Write an unsigned integer, using variable-length coding.
 
   - **<u>param</u>**: `num` { _number=0 | string_ }
@@ -72,7 +72,7 @@ npm i node-dirk -S
 
     length to write
 
-- #### <a href="./src/Encoder.coffee?source#L202" target="_blank"><b>writeInt(opts = {}) (alias: writeLong) </b></a>
+- #### <a href="./src/Encoder.coffee?source#L206" target="_blank"><b>writeInt(opts = {}) (alias: writeLong) </b></a>
   Write an signed integer, using zig-zag variable-length coding.
 
   - **<u>param</u>**: `opts` { _Object={}_ }
@@ -87,7 +87,7 @@ npm i node-dirk -S
 
     length to write
 
-- #### <a href="./src/Encoder.coffee?source#L238" target="_blank"><b>writeFloat(value = 0)</b></a>
+- #### <a href="./src/Encoder.coffee?source#L242" target="_blank"><b>writeFloat(value = 0)</b></a>
   Write a float.
 
   - **<u>param</u>**: `value` { _number=0_ }
@@ -98,7 +98,7 @@ npm i node-dirk -S
 
     length to write (always 4)
 
-- #### <a href="./src/Encoder.coffee?source#L247" target="_blank"><b>writeDouble(value = 0)</b></a>
+- #### <a href="./src/Encoder.coffee?source#L251" target="_blank"><b>writeDouble(value = 0)</b></a>
   Write a double.
 
   - **<u>param</u>**: `value` { _number=0_ }
@@ -109,7 +109,7 @@ npm i node-dirk -S
 
     length to write (always 8)
 
-- #### <a href="./src/Encoder.coffee?source#L258" target="_blank"><b>writeBytes(values, opts = {})</b></a>
+- #### <a href="./src/Encoder.coffee?source#L262" target="_blank"><b>writeBytes(values, opts = {})</b></a>
   Write bytes.
 
   - **<u>param</u>**: `values` { _Array | Buffer_ }
@@ -128,7 +128,7 @@ npm i node-dirk -S
 
     length to write
 
-- #### <a href="./src/Encoder.coffee?source#L279" target="_blank"><b>writeString(str, opts = {})</b></a>
+- #### <a href="./src/Encoder.coffee?source#L283" target="_blank"><b>writeString(str, opts = {})</b></a>
   Write a string.
 
   - **<u>param</u>**: `str` { _string_ }
@@ -147,7 +147,7 @@ npm i node-dirk -S
 
     length to write
 
-- #### <a href="./src/Encoder.coffee?source#L300" target="_blank"><b>writeMap(map =  {}, opts = {})</b></a>
+- #### <a href="./src/Encoder.coffee?source#L304" target="_blank"><b>writeMap(map =  {}, opts = {})</b></a>
   Write a map.
 
   - **<u>param</u>**: `map` { _Object | Map = {}_ }
@@ -174,7 +174,7 @@ npm i node-dirk -S
 
     length to write
 
-- #### <a href="./src/Encoder.coffee?source#L337" target="_blank"><b>writeArray(arr = [], opts = {})</b></a>
+- #### <a href="./src/Encoder.coffee?source#L341" target="_blank"><b>writeArray(arr = [], opts = {})</b></a>
   Write an array of data.
 
   - **<u>param</u>**: `arr` { _Array=[]_ }
@@ -197,7 +197,7 @@ npm i node-dirk -S
 
     length to write
 
-- #### <a href="./src/Encoder.coffee?source#L365" target="_blank"><b>writeObject(obj = {}, opts = {})</b></a>
+- #### <a href="./src/Encoder.coffee?source#L369" target="_blank"><b>writeObject(obj = {}, opts = {})</b></a>
   Write an object.
 
   - **<u>param</u>**: `obj` { _Object={}_ }
