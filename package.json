@@ -1,0 +1,27 @@
+{
+  "name": "node-dirk",
+  "version": "0.0.1",
+  "description": "A binary encoder aimed at achieving optimal space utilization.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "benchmark": "git+https://github.com/bestiejs/benchmark.js.git",
+    "coffee-script": "^1.9.2",
+    "coffeelint": "1.9.4",
+    "dracupid-no": "git+https://github.com/dracupid/dracupid-no.git",
+    "mocha": "^2.2.4",
+    "nodoc": "^0.2.3",
+    "nokit": "^0.6.5"
+  },
+  "files": [
+    "dist"
+  ],
+  "author": "dracupid <dracupid@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "jsbn": "0.0.0",
+    "queue-buffer": "^0.1.2"
+  }
+}
