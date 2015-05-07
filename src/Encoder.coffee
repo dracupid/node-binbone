@@ -2,7 +2,7 @@
 util = require 'util'
 QueueBuffer = require 'queue-buffer'
 BigInteger = require 'jsbn'
-MAX_JS_INT = Number.MAX_SAFE_INTEGER
+MAX_JS_INT = Number.MAX_SAFE_INTEGER or Math.pow(2, 53) - 1
 
 {SIGN} = require './typeID'
 
@@ -35,7 +35,6 @@ Number.isInteger = Number.isInteger or (value) ->
         isFinite(value) and
         Math.floor(value) is value
 
-# return writed length
 class BinaryEncoder
     ###*
      * constructor
