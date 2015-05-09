@@ -185,7 +185,7 @@ class BinaryEncoder
         else
             len = 0
             if not (num instanceof BigInteger) and num > Math.pow(2, 31)
-                num = new BigInteger num
+                num = new BigInteger num + ''
 
             if num instanceof BigInteger
                 while not num.and($A0x7F).equals($0)
@@ -231,7 +231,7 @@ class BinaryEncoder
                     throw new DirkEncodeError "Unvalid integer length: #{length}."
         else
             if num > Math.pow(2, 31) or num < -Math.pow(2, 31)
-                num = new BigInteger num
+                num = new BigInteger num + ''
                 byteLength = Math.ceil num.bitLength() / 8
                 num = num.shiftLeft(1).xor(num.shiftRight(8 * byteLength - 1))
             else

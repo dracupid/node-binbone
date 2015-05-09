@@ -13,6 +13,12 @@ class Block
         DirkEncoder.call @, @_data
         DirkDecoder.call @, @_data
 
+    getData: ->
+        @_data.toBuffer()
+
+    inspect: ->
+        @_data.inspect()
+
 extend Block::, DirkEncoder::
 extend Block::, DirkDecoder::
 
