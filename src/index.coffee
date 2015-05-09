@@ -17,3 +17,6 @@ extend Block::, DirkEncoder::
 extend Block::, DirkDecoder::
 
 module.exports = Block
+module.exports.Encoder = DirkEncoder
+module.exports.Decoder = DirkDecoder
+module.exports.QueueBuffer = QueueBuffer

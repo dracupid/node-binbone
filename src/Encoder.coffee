@@ -44,6 +44,8 @@ class BinaryEncoder
      * @param  {FlexBuffer} outputBlock     An DirkBlock Object
     ###
     constructor: (outputBlock) ->
+        unless outputBlock
+            outputBlock = new QueueBuffer()
         @writeTo outputBlock
         @
 
@@ -84,7 +86,7 @@ class BinaryEncoder
             throw new DirkEncodeError "Unkonw type [#{type}]"
 
     _writeType: (type, value) ->
-        @_writeTypeFun(type)(calue)
+        @_writeTypeFun(type)(value)
 
     _writeAuto: (v) ->
         len = 0
@@ -98,13 +100,13 @@ class BinaryEncoder
             else
                 len += @writeSign SIGN.double
                 len += @writeDouble v
-        else if util.isString v
+        else if typeof v is 'string'
             len += @writeSign SIGN.string
             len += @writeString v
         else if util.isArray v
             len += @writeSign SIGN.array
             len += @writeArray v
-        else if util.isObject v
+        else if typeof v is 'object'
             len += @writeSign SIGN.object
             len += @writeObject v
         else
@@ -231,7 +233,7 @@ class BinaryEncoder
             if num > Math.pow(2, 31) or num < -Math.pow(2, 31)
                 num = new BigInteger num
                 byteLength = Math.ceil num.bitLength() / 8
-                num = num.shiftLeft(1).xor(num.shiftRight(byteLength - 1))
+                num = num.shiftLeft(1).xor(num.shiftRight(8 * byteLength - 1))
             else
                 num = ~~num
                 num = (num << 1) ^ (num >> 63)
