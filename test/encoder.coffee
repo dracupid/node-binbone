@@ -46,26 +46,27 @@ describe "write Uint", ->
         B = new Block()
         l = B.writeUInt 128
         eq l, 2
-        deq B._data._buffer.slice(0, 2), new Buffer [0x80, 0x01]
+        deq B._data.slice(0, 2), new Buffer [0x80, 0x01]
 
         l = B.writeUInt 1234567
         eq l, 3
-        deq B._data._buffer.slice(2, 5), new Buffer [0x87, 0xAD, 0x4B]
+        deq B._data.slice(2, 5), new Buffer [0x87, 0xAD, 0x4B]
     it "write big uint", ->
         B = new Block()
-        l = B.writeUInt "123456789012345"
-        eq l, 5
-        deq B._data._buffer.slice(0, 5), new Buffer [0xf9, 0xbe, 0xb7, 0xb0, 0x08]
+        l = B.writeUInt "10123456789012345"
+        eq l, 8
+        deq B._data.slice(0, 8), new Buffer [0xf9, 0xbe, 0xbb, 0xae, 0xaf, 0xe7, 0xfd, 0x11]
     it "fix length - small", ->
         B = new Block()
         l = B.writeUInt 8, length: 4
         eq l, 4
-        deq B._data._buffer.slice(0, 4), new Buffer [0, 0, 0, 8]
+        deq B._data.slice(0, 4), new Buffer [0, 0, 0, 8]
     it "fix length - big", ->
         B = new Block()
-        l = B.writeUInt "123456789012345", length: 8
+        B._data._buffer.fill 0
+        l = B.writeUInt "10123456789012345", length: 8
         eq l, 8
-        deq B._data._buffer.slice(4, 8), new Buffer [0x86, 0x0d, 0xdf, 0x79]
+        deq B._data.slice(4, 8), new Buffer [0xf5, 0xce, 0xdf, 0x79]
 
 describe "write Int", ->
     it "write default", ->
@@ -77,27 +78,26 @@ describe "write Int", ->
         B = new Block()
         l = B.writeInt 64
         eq l, 2
-        deq B._data._buffer.slice(0, 2), new Buffer [0x80, 0x01]
+        deq B._data.slice(0, 2), new Buffer [0x80, 0x01]
 
         l = B.writeInt 1234567
         eq l, 4
-        deq B._data._buffer.slice(2, 6), new Buffer [0x8e, 0xda, 0x96, 0x01]
+        deq B._data.slice(2, 6), new Buffer [0x8e, 0xda, 0x96, 0x01]
     it "write big int", ->
         B = new Block()
         l = B.writeInt "123456789012345"
-        eq l, 5
-        deq B._data._buffer.slice(0, 5), new Buffer [0x8d, 0x82, 0x91, 0x9f, 0x0f]
+        eq l, 7
+        deq B._data.slice(0, 7), new Buffer [0x89, 0xa0, 0xaf, 0xc1, 0xb4, 0xe2, 0x38]
     it "fix length - small", ->
         B = new Block()
         l = B.writeInt 8, length: 4
         eq l, 4
-        deq B._data._buffer.slice(0, 4), new Buffer [0, 0, 0, 16]
+        deq B._data.slice(0, 4), new Buffer [0, 0, 0, 16]
     it "fix length - big", ->
         B = new Block()
         l = B.writeInt "123456789012345", length: 8
         eq l, 8
-        deq B._data._buffer.slice(4, 8), new Buffer [0x0c, 0x1b, 0xbe, 0xf2]
-
+        deq B._data.slice(4, 8), new Buffer [0x0c, 0x1b, 0xbe, 0xf2]
 describe "write float number", ->
     it "write float", ->
         B = new Block()

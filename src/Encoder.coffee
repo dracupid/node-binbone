@@ -2,9 +2,12 @@
 util = require 'util'
 QueueBuffer = require 'queue-buffer'
 BigInteger = require 'jsbn'
-MAX_JS_INT = Number.MAX_SAFE_INTEGER or Math.pow(2, 53) - 1
 
 {SIGN} = require './typeID'
+$0x7F = new BigInteger 0x7F + ''
+$A0x7F = new BigInteger ~0x7F + ''
+$0x80 = new BigInteger 0x80 + ''
+$0 = new BigInteger '0'
 
 isMap = (map) ->
     Object.prototype.toString.call(map) is '[object Map]'
@@ -38,7 +41,7 @@ Number.isInteger = Number.isInteger or (value) ->
 class BinaryEncoder
     ###*
      * constructor
-     * @param  {Block} outputBlock An DirkBlock Object
+     * @param  {FlexBuffer} outputBlock     An DirkBlock Object
     ###
     constructor: (outputBlock) ->
         @writeTo outputBlock
@@ -46,7 +49,7 @@ class BinaryEncoder
 
     ###*
      * Reset data block
-     * @param  {Block} outputBlock  see constructor
+     * @param  {FlexBuffer} outputBlock     An DirkBlock Object
     ###
     writeTo: (outputBlock) ->
         if not (outputBlock instanceof QueueBuffer) and not (outputBlock instanceof QueueBuffer.__super__.constructor)
@@ -54,26 +57,27 @@ class BinaryEncoder
         else
             @_output = outputBlock
 
-    _funByType: (type) ->
-        t = type.toLowerCase()
-        t = t.charAt(0).toUpperCase() + t.slice(1)
-
-        t = 'UInt' if t is 'Uint'
-        fun = @["write#{t}"]
-
-        if not fun or t is 'To'
-            throw new DirkEncodeError "Unknown type [#{type}]"
-        else
-            fun
-
     _writeTypeFun: (type) ->
         self = @
+
+        _funByType = (type) ->
+            t = type.toLowerCase()
+            t = t.charAt(0).toUpperCase() + t.slice(1)
+
+            t = 'UInt' if t is 'Uint'
+            fun = self["write#{t}"]
+
+            if not fun or t is 'To'
+                throw new DirkEncodeError "Unknown type [#{type}]"
+            else
+                fun
+
         if typeof type is 'string'
-            fun = @_funByType type
+            fun = _funByType type
             (value) ->
                 fun.call self, value
         else if typeof type is 'object' and typeof type.type is 'string'
-            fun = @_funByType type.type
+            fun = _funByType type.type
             (value) ->
                 fun.call self, value, type
         else
@@ -178,12 +182,14 @@ class BinaryEncoder
             @_writeUIntFixLength num, length
         else
             len = 0
-            if num > MAX_JS_INT
+            if not (num instanceof BigInteger) and num > Math.pow(2, 31)
                 num = new BigInteger num
-                while num.and(~0x7F) isnt 0
-                    len += @writeByte num.and(0x7F).or(0x80).toRadix 10
+
+            if num instanceof BigInteger
+                while not num.and($A0x7F).equals($0)
+                    len += @writeByte parseInt num.and($0x7F).or($0x80).toRadix 10
                     num = num.shiftRight 7
-                @writeByte num.toRadix 10
+                @writeByte parseInt num.toRadix 10
             else
                 num = ~~num
                 # Notice: num is 0
@@ -222,14 +228,13 @@ class BinaryEncoder
                 else
                     throw new DirkEncodeError "Unvalid integer length: #{length}."
         else
-            if num > MAX_JS_INT
+            if num > Math.pow(2, 31) or num < -Math.pow(2, 31)
                 num = new BigInteger num
                 byteLength = Math.ceil num.bitLength() / 8
-                num = num.shiftLeft(1).xor(num.shiftRight(byteLength * 8 - 1))
+                num = num.shiftLeft(1).xor(num.shiftRight(byteLength - 1))
             else
                 num = ~~num
                 num = (num << 1) ^ (num >> 63)
-
         @writeUInt num, opts
 
     writeLong: @::writeInt
@@ -346,7 +351,7 @@ class BinaryEncoder
         arrLen = arr.length
         len = 0
 
-        len += @_writeLength arrLen, length, "Array's length"
+        len += @_writeLength arrLen, length, "Length of array"
 
         if arrLen
             if not valueType
@@ -362,7 +367,7 @@ class BinaryEncoder
      * Write an object.
      * @param  {Object={}}      obj          object
      * @param  {Object={}}      opts         options
-     * @option {number}         length       length of array
+     * @option {number}         length       size of object
      * @option {string|Object}  valueType    type of object value
      * @return {number}                      length to write
     ###
@@ -375,7 +380,7 @@ class BinaryEncoder
         objLen = getLen obj, true
         len = 0
 
-        len += @_writeLength objLen, length, "Object's size"
+        len += @_writeLength objLen, length, "Size of object"
 
         if objLen
             if not valueType
