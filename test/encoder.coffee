@@ -188,7 +188,7 @@ describe "write Map", ->
         B = new Block()
         ts -> B.writeMap {}
         ts -> B.writeMap {}, keyType: 'string'
-        ts -> B.writeMap {}, keyType: 'int'
+        ts -> B.writeMap {}, valueType: 'int'
 
     it "write default", ->
         B = new Block()
