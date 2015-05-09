@@ -1,6 +1,6 @@
 {
   "name": "dirk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A binary encoder aimed at achieving optimal space utilization.",
   "main": "dist/index.js",
   "scripts": {
