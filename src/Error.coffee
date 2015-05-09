@@ -1,3 +1,5 @@
+"use strict"
+
 {format} = require "util"
 
 class DirkEncodeError extends Error

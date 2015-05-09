@@ -1,3 +1,5 @@
+"use strict"
+
 {DirkDecodeError} = require './Error'
 util = require 'util'
 BigInteger = require 'jsbn'

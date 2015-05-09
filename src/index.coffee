@@ -1,3 +1,5 @@
+"use strict"
+
 Error = require './Error'
 DirkEncoder = require './Encoder'
 DirkDecoder = require './Decoder'

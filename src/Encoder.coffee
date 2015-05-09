@@ -1,3 +1,5 @@
+"use strict"
+
 {DirkEncodeError} = require './Error'
 util = require 'util'
 QueueBuffer = require 'queue-buffer'
