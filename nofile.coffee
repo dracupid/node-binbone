@@ -8,21 +8,21 @@ module.exports = (task) ->
         $.coffee()
 
     task 'doc', ->
-        nodoc = require 'nodoc'
+        {generate: gen} = require 'nodoc'
         data = {}
 
-        kit.Promise.all [nodoc.generate('./src/Encoder.coffee', moduleName: ''), kit.readFile('./src/Readme.tpl', encoding: 'utf8')]
-        .then ([api, tpl]) ->
-            _.template(tpl) {api}
+        kit.Promise.all [gen('./src/Encoder.coffee'), gen('./src/Decoder.coffee'), kit.readFile('./src/Readme.tpl', encoding: 'utf8')]
+        .then ([api1, api2, tpl]) ->
+            _.template(tpl) {api: api1 + api2}
         .then (md)->
             kit.writeFile 'Readme.md', md
 
     task 'test', ->
         $.mocha()
 
-    task 'benchmark', ->
-        kit.spawn 'coffee', ['./benchmark/benchmark.coffee']
-        .catch ->
-            process.exit 1
+    # task 'benchmark', ->
+    #     kit.spawn 'coffee', ['./benchmark/benchmark.coffee']
+    #     .catch ->
+    #         process.exit 1
 
     task 'default', ['build', 'doc']

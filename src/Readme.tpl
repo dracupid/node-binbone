@@ -13,6 +13,38 @@ npm i node-dirk -S
 ```
 
 ## Usage
+- Use Block. Block can be use as both an encoder and a decoder.
+
+```javascript
+Block = require("dirk");
+block = new Block(1024); // args are the same as a QueueBuffer
+
+block.writeArray([1, 2, 3]);
+block.writeUInt("123456789012345"); // Big integer(use [jsbn](https://github.com/andyperlitch/jsbn))
+block.readArray();
+block.readUInt();
+```
+
+- Use encoder/decoder.
+
+Directly:
+
+```javascript
+Encoder = require("dirk").Encoder;
+encodeBlock = new Encoder();
+
+encodeBlock.writeInt(123);
+```
+
+Specify a Buffer for data:
+
+```javascript
+dirk = require('dirk');
+buf = new dirk.QueueBuffer();
+buf.writeUInt16BE(12);
+decoder = new dirk.Decoder(buf);
+decoder.readUInt({length: 2});
+```
 
 ## API
 <%= api %>
@@ -22,6 +54,8 @@ npm i node-dirk -S
 npm test
 ```
 
+## TODO
+- Record type
 
 ## License
 MIT@Dracupid

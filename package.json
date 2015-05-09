@@ -4,16 +4,17 @@
   "description": "A binary encoder aimed at achieving optimal space utilization.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "no test"
+    "test": "no test",
+    "prepublish": "no"
   },
   "devDependencies": {
     "benchmark": "git+https://github.com/bestiejs/benchmark.js.git",
-    "coffee-script": "^1.9.2",
+    "coffee-script": "*",
     "coffeelint": "1.9.4",
     "dracupid-no": "git+https://github.com/dracupid/dracupid-no.git",
     "mocha": "^2.2.4",
     "nodoc": "^0.2.3",
-    "nokit": "^0.6.5"
+    "nokit": "0.6.5"
   },
   "files": [
     "dist"
@@ -22,6 +23,6 @@
   "license": "MIT",
   "dependencies": {
     "jsbn": "0.0.0",
-    "queue-buffer": "^0.1.2"
+    "queue-buffer": "^0.1.3"
   }
 }

@@ -3,7 +3,7 @@ Dirk
 A binary encode specification aimed at achieving optimal space utilization, inspired by Apache Avro™, Protocol Buffers and more.
 
 * Auther: Zhao Jingchen
-* Version: 0.0.1
+* Version: 0.1.0
 
 > **This is not a complete data serialization specification.**
 This document defines ___dirk___ and its basic ideas.
