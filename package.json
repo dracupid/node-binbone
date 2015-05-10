@@ -18,7 +18,7 @@
     "nokit": "^0.6.5"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "no t"
   },
   "repository": {
     "type": "git",
