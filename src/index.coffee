@@ -1,8 +1,8 @@
 "use strict"
 
 Error = require './Error'
-DirkEncoder = require './Encoder'
-DirkDecoder = require './Decoder'
+BinboneEncoder = require './Encoder'
+BinboneDecoder = require './Decoder'
 QueueBuffer = require 'queue-buffer'
 
 extend = (src, dest) ->
@@ -12,8 +12,8 @@ extend = (src, dest) ->
 class Block
     constructor: (arg, opts) ->
         @_data = new QueueBuffer arg, opts
-        DirkEncoder.call @, @_data
-        DirkDecoder.call @, @_data
+        BinboneEncoder.call @, @_data
+        BinboneDecoder.call @, @_data
 
     getData: ->
         @_data.toBuffer()
@@ -21,10 +21,10 @@ class Block
     inspect: ->
         @_data.inspect()
 
-extend Block::, DirkEncoder::
-extend Block::, DirkDecoder::
+extend Block::, BinboneEncoder::
+extend Block::, BinboneDecoder::
 
 module.exports = Block
-module.exports.Encoder = DirkEncoder
-module.exports.Decoder = DirkDecoder
+module.exports.Encoder = BinboneEncoder
+module.exports.Decoder = BinboneDecoder
 module.exports.QueueBuffer = QueueBuffer

@@ -1,4 +1,4 @@
-Dirk
+Binbone
 =================
 A binary encode specification aimed at achieving optimal space utilization, inspired by Apache Avro™, Protocol Buffers and more.
 
@@ -6,7 +6,7 @@ A binary encode specification aimed at achieving optimal space utilization, insp
 * Version: 0.1.0
 
 > **This is not a complete data serialization specification.**
-This document defines ___dirk___ and its basic ideas.
+This document defines ___binbone___ and its basic ideas.
 
 ## 1. Types
 

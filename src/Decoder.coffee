@@ -1,6 +1,6 @@
 "use strict"
 
-{DirkDecodeError} = require './Error'
+{BinboneDecodeError} = require './Error'
 util = require 'util'
 BigInteger = require 'jsbn'
 QueueBuffer = require 'queue-buffer'
@@ -29,7 +29,7 @@ class BinaryDecoder
     ###
     readFrom: (inputBlock) ->
         if not inputBlock instanceof QueueBuffer
-            throw new DirkDecodeError "input block should be a QueueBuffer."
+            throw new BinboneDecodeError "input block should be a QueueBuffer."
         else
             @_input = inputBlock
 
@@ -44,7 +44,7 @@ class BinaryDecoder
             fun = self["#{name}#{t}"]
 
             if not fun or t is 'From'
-                throw new DirkDecodeError "Unknown type [#{type}]"
+                throw new BinboneDecodeError "Unknown type [#{type}]"
             else
                 fun
 
@@ -57,7 +57,7 @@ class BinaryDecoder
             (value) ->
                 fun.call self, type
         else
-            throw new DirkDecodeError "Unkonw type [#{type}]"
+            throw new BinboneDecodeError "Unkonw type [#{type}]"
 
     _readTypeFun: (type) ->
         @_buildTypeFun 'read', type
@@ -143,7 +143,7 @@ class BinaryDecoder
                 bytes = @_input.read 8
                 '' + new BigInteger bytes
             else
-                throw new DirkDecodeError "Unvalid integer length: #{length}."
+                throw new BinboneDecodeError "Unvalid integer length: #{length}."
 
     ###*
      * Read an unsigned integer.
@@ -196,7 +196,7 @@ class BinaryDecoder
             if length in [1, 2, 4, 8]
                 @_input.skip length
             else
-                throw new DirkDecodeError "Unvalid integer length: #{length}."
+                throw new BinboneDecodeError "Unvalid integer length: #{length}."
         else
             while (@readByte() & 0x80) isnt 0
                 {}
@@ -309,9 +309,9 @@ class BinaryDecoder
     readMap: (opts = {}) ->
         {keyType, valueType, length} = opts
         if not keyType
-            throw new DirkDecodeError "Key type for map is missing."
+            throw new BinboneDecodeError "Key type for map is missing."
         if not valueType
-            throw new DirkDecodeError "Value type for map is missing."
+            throw new BinboneDecodeError "Value type for map is missing."
 
         funKey = @_readTypeFun keyType
         funValue = @_readTypeFun valueType
@@ -340,9 +340,9 @@ class BinaryDecoder
     skipMap: (opts = {}) ->
         {keyType, valueType, length} = opts
         if not keyType
-            throw new DirkDecodeError "Key type for map is missing."
+            throw new BinboneDecodeError "Key type for map is missing."
         if not valueType
-            throw new DirkDecodeError "Value type for map is missing."
+            throw new BinboneDecodeError "Value type for map is missing."
 
         len = @_readLength length
         funKey = @_skipTypeFun keyType

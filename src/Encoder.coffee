@@ -1,6 +1,6 @@
 "use strict"
 
-{DirkEncodeError} = require './Error'
+{BinboneEncodeError} = require './Error'
 util = require 'util'
 QueueBuffer = require 'queue-buffer'
 BigInteger = require 'jsbn'
@@ -43,7 +43,7 @@ Number.isInteger = Number.isInteger or (value) ->
 class BinaryEncoder
     ###*
      * constructor
-     * @param  {FlexBuffer} outputBlock     An DirkBlock Object
+     * @param  {FlexBuffer} outputBlock     An BinboneBlock Object
     ###
     constructor: (outputBlock) ->
         unless outputBlock
@@ -53,11 +53,11 @@ class BinaryEncoder
 
     ###*
      * Reset data block
-     * @param  {FlexBuffer} outputBlock     An DirkBlock Object
+     * @param  {FlexBuffer} outputBlock     An BinboneBlock Object
     ###
     writeTo: (outputBlock) ->
         if not (outputBlock instanceof QueueBuffer) and not (outputBlock instanceof QueueBuffer.__super__.constructor)
-            throw new DirkEncodeError "output block should be a FlexBuffer or QueueBuffer."
+            throw new BinboneEncodeError "output block should be a FlexBuffer or QueueBuffer."
         else
             @_output = outputBlock
 
@@ -72,7 +72,7 @@ class BinaryEncoder
             fun = self["write#{t}"]
 
             if not fun or t is 'To'
-                throw new DirkEncodeError "Unknown type [#{type}]"
+                throw new BinboneEncodeError "Unknown type [#{type}]"
             else
                 fun
 
@@ -85,7 +85,7 @@ class BinaryEncoder
             (value) ->
                 fun.call self, value, type
         else
-            throw new DirkEncodeError "Unkonw type [#{type}]"
+            throw new BinboneEncodeError "Unkonw type [#{type}]"
 
     _writeType: (type, value) ->
         @_writeTypeFun(type)(value)
@@ -121,7 +121,7 @@ class BinaryEncoder
         if expect?
             expect >>>= 0
             if actual isnt expect
-                throw new DirkEncodeError "#{name} should be #{expect}, but get #{actual}"
+                throw new BinboneEncodeError "#{name} should be #{expect}, but get #{actual}"
             0
         else
             @writeLength actual
@@ -169,7 +169,7 @@ class BinaryEncoder
                     bytes = bytes[len - 8...len]
                 @_output.write new Buffer bytes
             else
-                throw new DirkEncodeError "Unvalid integer length: #{length}."
+                throw new BinboneEncodeError "Unvalid integer length: #{length}."
         length
 
     ###*
@@ -230,7 +230,7 @@ class BinaryEncoder
                     num = new BigInteger num
                     num = num.shiftLeft(1).xor(num.shiftRight(63))
                 else
-                    throw new DirkEncodeError "Unvalid integer length: #{length}."
+                    throw new BinboneEncodeError "Unvalid integer length: #{length}."
         else
             if num > Math.pow(2, 31) or num < -Math.pow(2, 31)
                 num = new BigInteger num + ''
@@ -270,7 +270,7 @@ class BinaryEncoder
     ###
     writeBytes: (values = [], opts = {}) ->
         if not Buffer.isBuffer(values) and not Array.isArray values
-            throw new DirkEncodeError 'Bytes must be an array or a buffer.'
+            throw new BinboneEncodeError 'Bytes must be an array or a buffer.'
 
         length = opts.length
         byteLen = values.length
@@ -312,13 +312,13 @@ class BinaryEncoder
     ###
     writeMap: (map = {}, opts = {}) ->
         if typeof map isnt 'object'
-            throw new DirkEncodeError "Unvalid map type [#{typeof map}]."
+            throw new BinboneEncodeError "Unvalid map type [#{typeof map}]."
 
         {keyType, valueType, length} = opts
         if not keyType
-            throw new DirkEncodeError "Key type for map is missing."
+            throw new BinboneEncodeError "Key type for map is missing."
         if not valueType
-            throw new DirkEncodeError "Value type for map is missing."
+            throw new BinboneEncodeError "Value type for map is missing."
 
         funKey = @_writeTypeFun keyType
         funValue = @_writeTypeFun valueType
@@ -349,7 +349,7 @@ class BinaryEncoder
     ###
     writeArray: (arr = [], opts = {}) ->
         if not Array.isArray arr
-            throw new DirkEncodeError "Wrong argument type, Array is required."
+            throw new BinboneEncodeError "Wrong argument type, Array is required."
 
         {valueType, length} = opts
         arrLen = arr.length
@@ -377,7 +377,7 @@ class BinaryEncoder
     ###
     writeObject: (obj = {}, opts = {}) ->
         if typeof obj isnt 'object'
-            throw new DirkEncodeError "Wrong argument type, Object is required."
+            throw new BinboneEncodeError "Wrong argument type, Object is required."
 
         {valueType, length} = opts
         obj = cleanObj obj

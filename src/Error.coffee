@@ -2,19 +2,19 @@
 
 {format} = require "util"
 
-class DirkEncodeError extends Error
+class BinboneEncodeError extends Error
     constructor: ->
-        @name = 'DirkEncodeError'
+        @name = 'BinboneEncodeError'
         @message = format.apply null, arguments
         Error.captureStackTrace @, arguments.callee
 
-class DirkDecodeError extends Error
+class BinboneDecodeError extends Error
     constructor: ->
-        @name = 'DirkDecodeError'
+        @name = 'BinboneDecodeError'
         @message = format.apply null, arguments
         Error.captureStackTrace @, arguments.callee
 
 module.exports = {
-    DirkEncodeError
-    DirkDecodeError
+    BinboneEncodeError
+    BinboneDecodeError
 }
