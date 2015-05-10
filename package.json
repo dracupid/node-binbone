@@ -19,6 +19,7 @@
   "scripts": {
     "test": "no test"
   },
+  "files": ["dist"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dracupid/node-binbone.git"
