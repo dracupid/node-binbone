@@ -1,4 +1,4 @@
-node-Binbone
+node-binbone
 =================
 Node.js(io.js) implemention of [binbone](doc/spec.md), A binary encode specification aimed at achieving optimal space utilization.
 
@@ -9,7 +9,7 @@ Node.js(io.js) implemention of [binbone](doc/spec.md), A binary encode specifica
 
 ## Installation
 ```bash
-npm i node-binbone -S
+npm i binbone -S
 ```
 
 ## Usage
