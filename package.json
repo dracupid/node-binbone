@@ -1,6 +1,6 @@
 {
   "name": "binbone",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A binary encoder aimed at achieving optimal space utilization.",
   "main": "dist/index.js",
   "dependencies": {
@@ -19,7 +19,9 @@
   "scripts": {
     "test": "no test"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dracupid/node-binbone.git"
