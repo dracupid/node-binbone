@@ -19,7 +19,7 @@ class Block
         @_data.toBuffer()
 
     inspect: ->
-        @_data.inspect()
+        @_data.inspect().replace '[QueueBuffer]', '[Binbone]'
 
 extend Block::, BinboneEncoder::
 extend Block::, BinboneDecoder::
