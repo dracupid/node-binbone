@@ -14,7 +14,7 @@
     "dracupid-no": "git+https://github.com/dracupid/dracupid-no.git",
     "mocha": "^2.2.4",
     "nodoc": "^0.2.3",
-    "nokit": "^0.6.5"
+    "nokit": "0.6.6"
   },
   "scripts": {
     "test": "no test"
