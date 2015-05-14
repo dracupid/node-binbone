@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "dependencies": {
     "jsbn": "^0.0.0",
-    "queue-buffer": "^0.1.4"
+    "queue-buffer": "^0.1.5"
   },
   "devDependencies": {
     "benchmark": "git+https://github.com/bestiejs/benchmark.js.git",
