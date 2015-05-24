@@ -50,6 +50,11 @@ describe "write Uint", ->
         eq l, 2
         deq B._data.slice(0, 2), new Buffer [0x80, 0x01]
 
+        B = new Block()
+        l = B.writeUInt 129
+        eq l, 2
+        deq B._data.slice(0, 2), new Buffer [0x81, 0x01]
+
         l = B.writeUInt 1234567
         eq l, 3
         deq B._data.slice(2, 5), new Buffer [0x87, 0xAD, 0x4B]
