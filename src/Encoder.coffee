@@ -238,7 +238,7 @@ class BinaryEncoder
                 num = num.shiftLeft(1).xor(num.shiftRight(8 * byteLength - 1))
             else
                 num = ~~num
-                num = (num << 1) ^ (num >> 63)
+                num = (num << 1) ^ (num >> 31)
         @writeUInt num, opts
 
     writeLong: @::writeInt
