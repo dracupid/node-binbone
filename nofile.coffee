@@ -20,9 +20,4 @@ module.exports = (task) ->
     task 'test', ->
         $.mocha()
 
-    # task 'benchmark', ->
-    #     kit.spawn 'coffee', ['./benchmark/benchmark.coffee']
-    #     .catch ->
-    #         process.exit 1
-
     task 'default', ['build', 'doc']

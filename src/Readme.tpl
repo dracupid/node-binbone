@@ -3,7 +3,6 @@ node-binbone
 Node.js(io.js) implemention of [binbone](doc/spec.md), A binary encode specification aimed at achieving optimal space utilization.
 
 [![NPM version](https://badge.fury.io/js/binbone.svg)](https://www.npmjs.com/package/node-binbone)
-[![Deps](https://david-dm.org/dracupid/node-binbone.svg?style=flat)](https://david-dm.org/dracupid/node-binbone)
 [![Build Status](https://travis-ci.org/dracupid/node-binbone.svg)](https://travis-ci.org/dracupid/node-binbone)
 [![Build status](https://ci.appveyor.com/api/projects/status/github/dracupid/node-binbone?svg=true)](https://ci.appveyor.com/project/dracupid/node-binbone)
 
@@ -58,4 +57,4 @@ npm test
 - Record type
 
 ## License
-MIT@Dracupid
+MIT@Jingchen Zhao
