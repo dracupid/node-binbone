@@ -12,3 +12,5 @@ notifications:
 before_install:
   - "npm install -g npm@1.4.26"
 
+cache:
+    npm
