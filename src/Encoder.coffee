@@ -306,8 +306,8 @@ class BinaryEncoder
      * @param  {Object | Map = {}} map       key-value map
      * @param  {Object={}}    opts         options
      * @option {number}       length    size of map
-     * @option {string|Object}       keyType      type of key[required]
-     * @option {string|Object}       valueType    type of value[required]
+     * @option {string|Object}       keyType      type of key [required]
+     * @option {string|Object}       valueType    type of value [required]
      * @return {number}                           length to write
     ###
     writeMap: (map = {}, opts = {}) ->

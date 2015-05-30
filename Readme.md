@@ -197,11 +197,11 @@ decoder.readUInt({length: 2});
 
   - **option**: `keyType` { _string|Object_ }
 
-    type of key[required]
+    type of key [required]
 
   - **option**: `valueType` { _string|Object_ }
 
-    type of value[required]
+    type of value [required]
 
   - **return**:  { _number_ }
 
