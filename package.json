@@ -1,6 +1,6 @@
 {
   "name": "binbone",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "A binary encoder/decoder aimed at achieving optimal space utilization.",
   "main": "dist/index.js",
   "dependencies": {
