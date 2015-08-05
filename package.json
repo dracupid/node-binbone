@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "dependencies": {
     "jsbn": "0.0.0",
-    "queue-buffer": "^0.1.6"
+    "queue-buffer": "^0.2.0"
   },
   "devDependencies": {
     "benchmark": "git+https://github.com/bestiejs/benchmark.js.git",
@@ -13,8 +13,8 @@
     "coffeelint": "^1.10.1",
     "dracupid-no": "git+https://github.com/dracupid/dracupid-no.git",
     "mocha": "^2.2.5",
-    "nodoc": "^0.3.3",
-    "nokit": "0.9.0"
+    "nodoc": "^0.3.5",
+    "nokit": "0.10.0"
   },
   "scripts": {
     "test": "no test"
